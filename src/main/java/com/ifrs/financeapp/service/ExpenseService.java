@@ -1,5 +1,6 @@
 package com.ifrs.financeapp.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class ExpenseService {
 
     public Optional<Expense> getById(Long id) {
         return expenseRepository.findById(id);
+    }
+
+    public List<Expense> getAll() {
+        return expenseRepository.findAll();
     }
 }

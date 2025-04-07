@@ -3,6 +3,8 @@ package com.ifrs.financeapp.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
@@ -27,7 +29,7 @@ public class Expense {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @CreationTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime date;
 
@@ -36,4 +38,5 @@ public class Expense {
 
     @Column(nullable = false)
     private String category;
+
 }
