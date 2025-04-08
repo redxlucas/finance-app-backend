@@ -26,4 +26,8 @@ public class ExpenseService {
     public List<Expense> getAll() {
         return expenseRepository.findAll();
     }
+
+    public Double getTotalByCategory(String category) {
+        return expenseRepository.getTotalAmountByCategory(category);
+    }
 }

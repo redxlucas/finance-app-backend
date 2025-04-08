@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import com.ifrs.financeapp.service.ExpenseService;
 
 @RestController
 @RequestMapping("/api/expenses")
-@CrossOrigin(origins = "*") 
 public class ExpenseController {
 
     @Autowired
@@ -26,6 +24,7 @@ public class ExpenseController {
 
     @PostMapping
     public ResponseEntity<Expense> createExpense(@RequestBody Expense expense) {
+        expense.setCategory(expense.getCategory().toUpperCase());
         Expense savedExpense = expenseService.save(expense);
         return ResponseEntity.status(201).body(savedExpense);
     }
@@ -40,5 +39,12 @@ public class ExpenseController {
     public ResponseEntity<List<Expense>> getAllExpenses() {
         List<Expense> listExpenses = expenseService.getAll();
         return ResponseEntity.ok().body(listExpenses);
+    }
+
+    @GetMapping("/total/category/{category}")
+    public ResponseEntity<Double> getTotalAmountByCategory(@PathVariable String category) {
+        String formattedCategory = category.toUpperCase();
+        Double totalExpenses = expenseService.getTotalByCategory(formattedCategory);
+        return ResponseEntity.ok().body(totalExpenses);
     }
 }
