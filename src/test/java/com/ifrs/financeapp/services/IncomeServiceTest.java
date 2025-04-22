@@ -11,19 +11,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.ifrs.financeapp.model.Expense;
-import com.ifrs.financeapp.repository.ExpenseRepository;
-import com.ifrs.financeapp.service.ExpenseService;
+import com.ifrs.financeapp.model.Income;
+import com.ifrs.financeapp.model.Income;
+import com.ifrs.financeapp.repository.IncomeRepository;
+import com.ifrs.financeapp.service.IncomeService;
 
-public class ExpenseServiceTest {
+public class IncomeServiceTest {
     @InjectMocks
-    private ExpenseService expenseService;
+    private IncomeService incomeService;
 
     @Mock
-    private ExpenseRepository expenseRepository;
+    private IncomeRepository incomeRepository;
 
     @Mock
-    private Expense expenseMock;
+    private Income incomeMock;
 
     @BeforeEach
     void setUp() {
@@ -31,16 +32,16 @@ public class ExpenseServiceTest {
     }
 
     @Test
-    void shouldSaveExpense() {
+    void shouldSaveIncome() {
         final Long EXPENSE_ID = 1L;
 
-        when(expenseMock.getId()).thenReturn(EXPENSE_ID);
-        when(expenseRepository.save(expenseMock)).thenReturn(expenseMock);
+        when(incomeMock.getId()).thenReturn(EXPENSE_ID);
+        when(incomeRepository.save(incomeMock)).thenReturn(incomeMock);
     
-        Expense saved = expenseService.save(expenseMock);
+        Income saved = incomeService.save(incomeMock);
     
         assertNotNull(saved);
         assertEquals(EXPENSE_ID, saved.getId());
-        verify(expenseRepository).save(expenseMock);
+        verify(incomeRepository).save(incomeMock);
     }
 }
