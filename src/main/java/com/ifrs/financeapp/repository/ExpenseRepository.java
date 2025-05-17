@@ -8,6 +8,6 @@ import com.ifrs.financeapp.model.Expense;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.category = :category")
-    Double getTotalAmountByCategory(String category);
+    // @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.category = :category")
+    // Double getTotalAmountByCategory(String category);
 }
