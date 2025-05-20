@@ -1,13 +1,14 @@
 package com.ifrs.financeapp.dto.requests;
 
 import java.math.BigDecimal;
-import java.util.List;
+
+import com.ifrs.financeapp.model.transaction.TransactionType;
 
 public record ExpenseRequestDTO(
-    BigDecimal amount,
-    String description,
-    List<Long> categoryIds
-) {
+        BigDecimal amount,
+        String description,
+        TransactionType type,
+        Long categoryId) {
     public ExpenseRequestDTO {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
@@ -15,8 +16,8 @@ public record ExpenseRequestDTO(
         if (description == null || description.isBlank()) {
             throw new IllegalArgumentException("Description cannot be empty");
         }
-        if (categoryIds == null) {
-            categoryIds = List.of();
+        if (categoryId == null) {
+            throw new IllegalArgumentException("Category ID cannot be null");
         }
     }
 }

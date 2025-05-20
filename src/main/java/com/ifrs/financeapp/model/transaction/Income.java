@@ -1,4 +1,4 @@
-package com.ifrs.financeapp.model;
+package com.ifrs.financeapp.model.transaction;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "incomes")
 public class Income {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,10 +25,10 @@ public class Income {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private String recurrence; 
+    private String recurrence;
 
     @Column(nullable = false)
-    private String category; 
+    private String category;
 
     @Column(nullable = false)
     private String description;

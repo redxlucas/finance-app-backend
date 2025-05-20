@@ -1,16 +1,15 @@
 package com.ifrs.financeapp.service;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ifrs.financeapp.dto.requests.ExpenseRequestDTO;
 import com.ifrs.financeapp.dto.responses.ExpenseResponseDTO;
-import com.ifrs.financeapp.model.Category;
-import com.ifrs.financeapp.model.Expense;
+import com.ifrs.financeapp.model.category.Category;
+import com.ifrs.financeapp.model.transaction.Expense;
 import com.ifrs.financeapp.repository.CategoryRepository;
 import com.ifrs.financeapp.repository.ExpenseRepository;
 
@@ -25,30 +24,35 @@ public class ExpenseService {
 
     public ExpenseResponseDTO save(ExpenseRequestDTO expenseDTO) {
 
-        List<Category> categories = expenseDTO.categoryIds().stream()
-                .map(id -> categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + id)))
-                .toList();
-    
+        Category category = categoryRepository.findById(expenseDTO.categoryId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + expenseDTO.categoryId()));
+
         Expense expense = new Expense();
         expense.setAmount(expenseDTO.amount());
+        expense.setType(expenseDTO.type());
         expense.setDescription(expenseDTO.description());
-        expense.setCategoryList(categories);
+        expense.setCategory(category);
 
         expenseRepository.save(expense);
 
         return new ExpenseResponseDTO(expense);
     }
 
-    public Optional<Expense> getById(Long id) {
-        return expenseRepository.findById(id);
+    public ExpenseResponseDTO getById(Long id) {
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Despesa não encontrada: " + id));
+
+        return new ExpenseResponseDTO(expense);
     }
 
-    public List<Expense> getAll() {
-        return expenseRepository.findAll();
+    public List<ExpenseResponseDTO> getAll() {
+        return expenseRepository.findAll().stream()
+                .map(ExpenseResponseDTO::new)
+                .toList();
     }
 
-    // public Double getTotalByCategory(String category) {
-    // return expenseRepository.getTotalAmountByCategory(category);
-    // }
+    public BigDecimal getTotalAmountByCategory(String category) {
+        String formattedCategory = category.trim().toLowerCase();
+        return expenseRepository.getTotalAmountByCategory(formattedCategory);
+    }
 }
