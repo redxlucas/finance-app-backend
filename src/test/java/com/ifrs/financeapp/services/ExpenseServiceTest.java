@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.ifrs.financeapp.model.Expense;
+import com.ifrs.financeapp.model.transaction.Expense;
 import com.ifrs.financeapp.repository.ExpenseRepository;
 import com.ifrs.financeapp.service.ExpenseService;
 

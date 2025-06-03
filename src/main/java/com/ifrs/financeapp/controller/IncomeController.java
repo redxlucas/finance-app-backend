@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ifrs.financeapp.model.Income;
+import com.ifrs.financeapp.model.transaction.Income;
 import com.ifrs.financeapp.service.IncomeService;
 
 @RestController
 @RequestMapping("/api/incomes")
 public class IncomeController {
-    
+
     @Autowired
     private IncomeService incomeService;
 
