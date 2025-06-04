@@ -13,7 +13,9 @@ public record ExpenseResponseDTO(
         LocalDateTime createdAt,
         TransactionType type,
         String description,
+        String userLogin,
         CategoryDTO category) {
+
     public ExpenseResponseDTO(Expense expense) {
         this(
                 expense.getId(),
@@ -21,6 +23,7 @@ public record ExpenseResponseDTO(
                 expense.getCreatedAt(),
                 expense.getType(),
                 expense.getDescription(),
+                expense.getUser().getLogin(),
                 new CategoryDTO(expense.getCategory()));
     }
 }
