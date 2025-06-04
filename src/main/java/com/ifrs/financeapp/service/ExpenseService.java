@@ -10,6 +10,7 @@ import com.ifrs.financeapp.dto.requests.ExpenseRequestDTO;
 import com.ifrs.financeapp.dto.responses.ExpenseResponseDTO;
 import com.ifrs.financeapp.model.category.Category;
 import com.ifrs.financeapp.model.transaction.Expense;
+import com.ifrs.financeapp.model.user.User;
 import com.ifrs.financeapp.repository.CategoryRepository;
 import com.ifrs.financeapp.repository.ExpenseRepository;
 
@@ -22,7 +23,7 @@ public class ExpenseService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public ExpenseResponseDTO save(ExpenseRequestDTO expenseDTO) {
+    public ExpenseResponseDTO save(ExpenseRequestDTO expenseDTO, User user) {
 
         Category category = categoryRepository.findById(expenseDTO.categoryId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + expenseDTO.categoryId()));
@@ -32,6 +33,7 @@ public class ExpenseService {
         expense.setType(expenseDTO.type());
         expense.setDescription(expenseDTO.description());
         expense.setCategory(category);
+        expense.setUser(user);
 
         expenseRepository.save(expense);
 

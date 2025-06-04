@@ -25,7 +25,7 @@ public class SecurityConfigurations {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .securityContext(context -> context.requireExplicitSave(false))
+                // .securityContext(context -> context.requireExplicitSave(false))
                 .authorizeHttpRequests(authorize -> authorize
                         // .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         // .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()

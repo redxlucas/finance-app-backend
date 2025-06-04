@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ifrs.financeapp.dto.requests.ExpenseRequestDTO;
 import com.ifrs.financeapp.dto.responses.ExpenseResponseDTO;
+import com.ifrs.financeapp.model.user.User;
 import com.ifrs.financeapp.service.ExpenseService;
 
 @RestController
@@ -24,8 +26,9 @@ public class ExpenseController {
     private ExpenseService expenseService;
 
     @PostMapping
-    public ResponseEntity<ExpenseResponseDTO> createExpense(@RequestBody ExpenseRequestDTO expenseDTO) {
-        ExpenseResponseDTO savedExpense = expenseService.save(expenseDTO);
+    public ResponseEntity<ExpenseResponseDTO> createExpense(@RequestBody ExpenseRequestDTO expenseDTO,
+            @AuthenticationPrincipal User user) {
+        ExpenseResponseDTO savedExpense = expenseService.save(expenseDTO, user);
         return ResponseEntity.status(201).body(savedExpense);
     }
 

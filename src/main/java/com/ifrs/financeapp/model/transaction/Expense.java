@@ -3,6 +3,7 @@ package com.ifrs.financeapp.model.transaction;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ifrs.financeapp.model.category.Category;
+import com.ifrs.financeapp.model.user.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,4 +25,9 @@ public class Expense extends Transaction {
     @JoinColumn(name = "category_id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    private User user;
 }
