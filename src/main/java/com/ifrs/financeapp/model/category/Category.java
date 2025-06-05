@@ -3,7 +3,7 @@ package com.ifrs.financeapp.model.category;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ifrs.financeapp.model.transaction.Expense;
+import com.ifrs.financeapp.model.transaction.Transaction;
 
 import java.util.ArrayList;
 
@@ -29,5 +29,5 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Expense> expenseList = new ArrayList<>();
+    private List<Transaction> transactionList = new ArrayList<>();
 }

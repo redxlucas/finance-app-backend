@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -51,8 +52,8 @@ public class User implements UserDetails {
     @Column(name = "language_preference", nullable = false)
     private LanguagePreference languagePreference;
 
+    @CreationTimestamp
     @Column(name = "registration_date", nullable = false)
-    // @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime registrationDate;
 
     @Enumerated(EnumType.STRING)
@@ -68,7 +69,6 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
         this.userType = UserType.PERSONAL;
         this.languagePreference = languagePreference;
-        this.registrationDate = LocalDateTime.now();
         this.themePreference = themePreference;
     }
 
