@@ -34,13 +34,13 @@ public class AuthenticationService {
 
     public void register(RegisterDTO registerDTO) {
         if (userRepository.findByLogin(registerDTO.login()) != null) {
-            throw new IllegalArgumentException("User already exists.");
+            throw new IllegalArgumentException("E-mail já está cadastrado.");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
 
         User newUser = new User(registerDTO.login(), encryptedPassword, registerDTO.completeName(),
-                registerDTO.birthDate(), registerDTO.languagePreference(),
+                registerDTO.languagePreference(),
                 registerDTO.themePreference());
 
         userRepository.save(newUser);
