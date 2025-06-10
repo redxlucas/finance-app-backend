@@ -3,6 +3,7 @@ package com.ifrs.financeapp.config;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("jabuti")
                     .withSubject(user.getLogin())
+                    .withClaim("name", user.getCompleteName())
+                    .withIssuedAt(new Date())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algoritm);
 
