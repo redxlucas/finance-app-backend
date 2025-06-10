@@ -12,6 +12,8 @@ import com.ifrs.financeapp.dto.LoginResponseDTO;
 import com.ifrs.financeapp.dto.RegisterDTO;
 import com.ifrs.financeapp.service.AuthenticationService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -26,7 +28,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
         try {
             authenticationService.register(registerDTO);
             return ResponseEntity.ok().build();

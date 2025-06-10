@@ -1,11 +1,15 @@
 package com.ifrs.financeapp.dto;
 
-import java.time.LocalDate;
-
 import com.ifrs.financeapp.model.user.LanguagePreference;
 import com.ifrs.financeapp.model.user.ThemePreference;
 
-public record RegisterDTO(String login, String password, String completeName, LocalDate birthDate,
-        LanguagePreference languagePreference, ThemePreference themePreference) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public record RegisterDTO(
+        @NotBlank(message = "O login é obrigatório.") String login,
+        @NotBlank(message = "A senha é obrigatória.") String password,
+        @NotBlank(message = "O nome completo é obrigatório.") String completeName,
+        @NotNull(message = "A preferência de idioma é obrigatória.") LanguagePreference languagePreference,
+        @NotNull(message = "A preferência de tema é obrigatória.") ThemePreference themePreference) {
 }

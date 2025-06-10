@@ -17,6 +17,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,14 +37,11 @@ public class User implements UserDetails {
     @Column(name = "login", unique = true, nullable = false)
     private String login; // Email do usuário
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 72)
     private String password;
 
     @Column(name = "complete_name", nullable = false)
     private String completeName;
-
-    @Column(name = "birthDate", nullable = false)
-    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
@@ -60,13 +59,12 @@ public class User implements UserDetails {
     @Column(name = "theme_preference", nullable = false)
     private ThemePreference themePreference;
 
-    public User(String login, String password, String completeName, LocalDate birthDate,
+    public User(String login, String password, String completeName,
             LanguagePreference languagePreference,
             ThemePreference themePreference) {
         this.login = login;
         this.password = password;
         this.completeName = completeName;
-        this.birthDate = birthDate;
         this.userType = UserType.PERSONAL;
         this.languagePreference = languagePreference;
         this.themePreference = themePreference;
