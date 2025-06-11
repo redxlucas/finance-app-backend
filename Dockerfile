@@ -1,4 +1,16 @@
-# FROM gradle:8.4.0-jdk21 AS test
+# # FROM gradle:8.4.0-jdk21 AS test
+
+# # WORKDIR /home/finance-app
+
+# # COPY build.gradle .
+# # COPY settings.gradle .
+# # COPY src /home/finance-app/src
+
+# # ENV ENVIRONMENT=${ENVIRONMENT}
+
+# # RUN gradle test -Dspring.profiles.active=test
+
+# FROM gradle:8.4.0-jdk21 AS build
 
 # WORKDIR /home/finance-app
 
@@ -8,24 +20,39 @@
 
 # ENV ENVIRONMENT=${ENVIRONMENT}
 
-# RUN gradle test -Dspring.profiles.active=test
+# RUN gradle clean build -x test
 
-FROM gradle:8.4.0-jdk21 AS build
+# FROM openjdk:21
 
-WORKDIR /home/finance-app
+# WORKDIR /home/finance-app
 
-COPY build.gradle .
-COPY settings.gradle .
-COPY src /home/finance-app/src
+# COPY --from=build /home/finance-app/build/libs/financeapp-0.0.1-SNAPSHOT.jar .
 
-ENV ENVIRONMENT=${ENVIRONMENT}
+# ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=$ENVIRONMENT financeapp-0.0.1-SNAPSHOT.jar"]
 
-RUN gradle clean build -x test
+# Novo Dockerfile
 
-FROM openjdk:21
+# FROM gradle:8.4.0-jdk21 AS build
 
-WORKDIR /home/finance-app
+# RUN apt-get update
+# RUN apt-get install openjdk-17-jdk -y
 
-COPY --from=build /home/finance-app/build/libs/financeapp-0.0.1-SNAPSHOT.jar .
+# COPY . . 
 
-ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=$ENVIRONMENT financeapp-0.0.1-SNAPSHOT.jar"]
+# RUN gradle clean build -x test
+
+# FROM openjdk:21
+
+# EXPOSE 8080
+
+# COPY --from=build 
+
+FROM gradle:8.0-jdk17 AS build
+WORKDIR /app
+COPY . .
+RUN gradle clean build
+
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]

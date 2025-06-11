@@ -15,6 +15,7 @@ services:
         volumes:
             - ".m2:/root/.m2"
         environment:
+            - SPRING_PROFILES_ACTIVE=prod
             - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
             - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
             - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
