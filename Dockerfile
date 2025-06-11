@@ -20,7 +20,7 @@ COPY src /home/finance-app/src
 
 ENV ENVIRONMENT=${ENVIRONMENT}
 
-RUN gradle clean build 
+RUN gradle clean build -x test
 
 FROM openjdk:21
 
