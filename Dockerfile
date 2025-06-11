@@ -50,7 +50,11 @@
 FROM gradle:8.0-jdk17 AS build
 WORKDIR /app
 COPY . .
-RUN gradle clean build
+
+# Opcional: usar cache local para evitar problemas
+ENV GRADLE_USER_HOME=/app/.gradle
+
+RUN gradle clean build --no-daemon --refresh-dependencies
 
 FROM openjdk:17-jdk-slim
 WORKDIR /app
