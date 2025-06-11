@@ -54,7 +54,7 @@ COPY . .
 # Opcional: usar cache local para evitar problemas
 ENV GRADLE_USER_HOME=/app/.gradle
 
-RUN gradle clean build --no-daemon --refresh-dependencies
+RUN ./gradlew clean build --no-daemon --refresh-dependencies
 
 FROM openjdk:17-jdk-slim
 WORKDIR /app
