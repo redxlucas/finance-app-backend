@@ -34,7 +34,7 @@ public class AuthenticationService {
 
     public void register(RegisterDTO registerDTO) {
         if (userRepository.findByLogin(registerDTO.login()) != null) {
-            throw new IllegalArgumentException("E-mail já está cadastrado.");
+            throw new IllegalArgumentException("auth.error.emailAlreadyExists");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
