@@ -1,14 +1,14 @@
-FROM gradle:8.4.0-jdk21 AS test
+# FROM gradle:8.4.0-jdk21 AS test
 
-WORKDIR /home/finance-app
+# WORKDIR /home/finance-app
 
-COPY build.gradle .
-COPY settings.gradle .
-COPY src /home/finance-app/src
+# COPY build.gradle .
+# COPY settings.gradle .
+# COPY src /home/finance-app/src
 
-ENV ENVIRONMENT=${ENVIRONMENT}
+# ENV ENVIRONMENT=${ENVIRONMENT}
 
-RUN gradle test -Dspring.profiles.active=test
+# RUN gradle test -Dspring.profiles.active=test
 
 FROM gradle:8.4.0-jdk21 AS build
 
