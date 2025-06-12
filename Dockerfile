@@ -67,7 +67,7 @@
 
 # ENTRYPOINT ["java", "-jar", "app.jar"]
 
-FROM gradle:jdk21-noble-jammy AS build
+FROM gradle:8.12.1-jdk21 AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
@@ -76,7 +76,7 @@ RUN gradle build --no-daemon
 #
 # Package stage
 #
-FROM eclipse-temurin:21-jdk-jammy
+FROM openjdk:21
 
 COPY --from=build /home/gradle/src/build/libs/financeapp-0.0.1-SNAPSHOT.jar app.jar
 
