@@ -47,16 +47,37 @@
 
 # COPY --from=build 
 
-FROM gradle:8.0-jdk17 AS build
-WORKDIR /app
-COPY . .
+# Etapa de build com Gradle 8.12.1 e Java 21
+# FROM gradle:8.12.1-jdk21 AS build
 
-# Opcional: usar cache local para evitar problemas
-ENV GRADLE_USER_HOME=/app/.gradle
+# WORKDIR /app
+# COPY . .
 
-RUN ./gradlew clean build --no-daemon --refresh-dependencies
+# ENV GRADLE_USER_HOME=/app/.gradle
 
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# RUN gradle clean build --no-daemon
+
+# # Etapa de execução com Java 21
+# FROM openjdk:21-jdk-slim
+
+# WORKDIR /app
+# EXPOSE 8080
+
+# COPY --from=build /app/build/libs/*.jar app.jar
+
+# ENTRYPOINT ["java", "-jar", "app.jar"]
+
+FROM gradle:jdk21-noble-jammy AS build
+
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
+
+#
+# Package stage
+#
+FROM eclipse-temurin:21-jdk-jammy
+
+COPY --from=build /home/gradle/src/build/libs/financeapp-0.0.1-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
