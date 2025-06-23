@@ -19,10 +19,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "categories")
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +41,11 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Transaction> transactionList = new ArrayList<>();
+
+    public Category(Long id, String name, String color, TransactionType type) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+        this.type = type;
+    }
 }
