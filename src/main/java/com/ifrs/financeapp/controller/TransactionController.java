@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +38,6 @@ public class TransactionController {
         return ResponseEntity.status(201).body(savedTransaction);
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<TransactionResponseDTO>
-    // getTransactionById(@PathVariable Long id) {
-    // TransactionResponseDTO transaction = transactionService.getById(id);
-    // return ResponseEntity.ok().body(transaction);
-    // }
-
     @GetMapping("/all")
     public ResponseEntity<Page<TransactionResponseDTO>> getAllTransactions(
             @RequestParam(defaultValue = "0") int page,
@@ -53,9 +48,17 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionService.getAll(pageable, user));
     }
 
-    @GetMapping("/total/category/{category}")
-    public ResponseEntity<BigDecimal> getTotalAmountByCategory(@PathVariable String category) {
-        BigDecimal totalTransactions = transactionService.getTotalAmountByCategory(category);
-        return ResponseEntity.ok().body(totalTransactions);
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<Boolean> deleteTransaction(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long transactionId) {
+
+        boolean deleted = transactionService.deleteTransactionByIdAndUser(transactionId, user);
+
+        if (deleted) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
+        }
     }
 }

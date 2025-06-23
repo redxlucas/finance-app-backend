@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ifrs.financeapp.dto.CategoryDTO;
+import com.ifrs.financeapp.model.transaction.TransactionType;
 import com.ifrs.financeapp.service.CategoryService;
 
 @RestController
@@ -18,9 +19,19 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         return ResponseEntity.ok().body(categoryService.getAll());
+    }
+
+    @GetMapping("/expense")
+    public ResponseEntity<List<CategoryDTO>> getExpenseCategories() {
+        return ResponseEntity.ok().body(categoryService.getAllByType(TransactionType.EXPENSE));
+    }
+
+    @GetMapping("/income")
+    public ResponseEntity<List<CategoryDTO>> getIncomeCategories() {
+        return ResponseEntity.ok().body(categoryService.getAllByType(TransactionType.INCOME));
     }
 
 }

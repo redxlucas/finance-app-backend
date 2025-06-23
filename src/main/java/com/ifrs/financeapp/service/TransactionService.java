@@ -1,7 +1,5 @@
 package com.ifrs.financeapp.service;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +13,8 @@ import com.ifrs.financeapp.model.transaction.Transaction;
 import com.ifrs.financeapp.model.user.User;
 import com.ifrs.financeapp.repository.CategoryRepository;
 import com.ifrs.financeapp.repository.TransactionRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class TransactionService {
@@ -55,8 +55,14 @@ public class TransactionService {
         return transactionRepository.findAllByUser(user, pageable).map(TransactionResponseDTO::new);
     }
 
-    public BigDecimal getTotalAmountByCategory(String category) {
-        String formattedCategory = category.trim().toLowerCase();
-        return transactionRepository.getTotalAmountByCategory(formattedCategory);
+    @Transactional
+    public boolean deleteTransactionByIdAndUser(Long transactionId, User user) {
+        return transactionRepository.findById(transactionId)
+                .filter(transaction -> transaction.getUser().getId().equals(user.getId()))
+                .map(transaction -> {
+                    transactionRepository.delete(transaction);
+                    return true;
+                })
+                .orElse(false);
     }
 }
